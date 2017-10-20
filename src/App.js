@@ -6,7 +6,13 @@ class App extends Component {
     return (
       <div className="App">
         <div className="login">
-          <Form />
+            <div>
+                <h1>
+                <b>Git </b>
+                <i>Priority</i>
+                </h1>
+                <Form />
+            </div>
         </div>
       </div>
     );
