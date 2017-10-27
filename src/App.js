@@ -1,22 +1,18 @@
-import React, { Component } from 'react';
-import Form from './Form.js';
+import React from 'react';
+import { observer, inject } from "mobx-react";
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <div className="login">
-            <div>
-                <h1>
-                <b>Git </b>
-                <i>Priority</i>
-                </h1>
-                <Form />
-            </div>
-        </div>
-      </div>
-    );
-  }
-}
+// Components
+import RepoScreen from './components/Count'
+import LoginScreen from './components/Form.js';
+
+const App = inject('store')(observer(({ store }) => (
+    <div>
+        {!store.githubToken ? (
+            <LoginScreen />
+        ) : (
+            <RepoScreen />
+        )}
+    </div>
+)))
 
 export default App;
