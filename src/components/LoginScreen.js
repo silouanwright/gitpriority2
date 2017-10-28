@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { Form, Icon, Input, Button } from "antd";
 import { observer, inject } from "mobx-react";
 import "./LoginScreen.css";
-//import github from 'github-api';
-import { api, initApi } from "../utils/gitFetch.js";
 const FormItem = Form.Item;
 
 class NormalLoginForm extends Component {
@@ -12,31 +10,6 @@ class NormalLoginForm extends Component {
     this.state = {
       submitted: false
     };
-  }
-
-  githubLogin(token) {
-    // var gh = new github({
-    //     token
-    // });
-
-    var me = api.getUser();
-
-    me.listRepos().then(({ data: reposJson }) => {
-      this.setState({
-        repos: reposJson
-      });
-
-      let repo = reposJson.find(repo => {
-        return repo.name === "dotfiles";
-      });
-
-      api
-        .getIssues(repo.owner.login, repo.name)
-        .listIssues()
-        .then(response => {
-          console.log("specific issue", response.data);
-        });
-    });
   }
 
   handleSubmit = e => {
