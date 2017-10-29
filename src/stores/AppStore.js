@@ -1,4 +1,4 @@
-import { types, onSnapshot, destroy, process } from "mobx-state-tree";
+import { types, process } from "mobx-state-tree";
 import { fetchGithubIssues, fetchGithubRepos } from "../utils/gitFetch";
 
 const Issue = types.model("Issue", {
@@ -21,16 +21,13 @@ const Repo = types.model("Repo", {
 export const AppStore = types
   .model({
     state: "done",
-    githubToken: "",
+    githubToken: types.maybe(
+      types.refinement(types.string, value => value.length > 0)
+    ),
     issues: types.optional(types.array(Issue), []),
     repos: types.optional(types.array(Repo), []),
     selectedRepo: types.maybe(types.reference(Repo))
   })
-  // .views(self => ({
-  //   login(name) {
-  //     return self.repos.find(repo => repo.name === name).owner.login;
-  //   }
-  // }))
   .actions(self => {
     const fetchProjects = process(function*(token) {
       self.state = "pending";
@@ -42,14 +39,10 @@ export const AppStore = types
         // Save the token once we've received repos
         self.githubToken = token;
         self.selectedRepo = null;
-        // self.repos = [];
-        // self.state = "done";
       } catch (error) {
         console.error("Failed to fetch projects", error);
         self.state = "error";
       }
-      // The action will return a promise that resolves to the returned value
-      // (or rejects with anything thrown from the action)
       return self.state;
     });
 
@@ -82,8 +75,10 @@ export const AppStore = types
       self.githubToken = token;
     }
 
-    function removeGithubToken() {
-      self.githubToken = "";
+    function resetApplication() {
+      // Must be a way where I could create the store
+      // anew with store.create()
+      self.githubToken = null;
       self.issues = [];
       self.selectedRepo = null;
     }
@@ -105,7 +100,6 @@ export const AppStore = types
       const result = Array.from(list);
       const [removed] = result.splice(startIndex, 1);
       result.splice(endIndex, 0, removed);
-
       return result;
     };
 
@@ -116,6 +110,6 @@ export const AppStore = types
       refreshGithubConnection,
       fetchIssues,
       saveGithubToken,
-      removeGithubToken
+      resetApplication
     };
   });

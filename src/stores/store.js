@@ -1,11 +1,10 @@
-import { types, onSnapshot, destroy, process } from "mobx-state-tree";
-import { fetchGithubIssues, fetchGithubRepos } from "../utils/gitFetch";
+import { onSnapshot, destroy } from "mobx-state-tree";
 import { AppStore } from "./AppStore.js";
 
 const localStorageKey = "git-priority";
+
 const defaultState = {
-  count: 10,
-  githubToken: "",
+  githubToken: null,
   selectedRepo: null
 };
 

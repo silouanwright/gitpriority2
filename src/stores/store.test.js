@@ -31,12 +31,13 @@ const invalidIssues = [
 ];
 
 describe("Github Token", () => {
-  it("should only allow a string assignment", () => {
+  it("should only allow a non empty string assignment", () => {
     expect(AppStore.create({ githubToken: "string" }).githubToken).toBe(
       "string"
     );
     expect(() => AppStore.create({ githubToken: [1, 2, 3] })).toThrow();
     expect(() => AppStore.create({ githubToken: 0 })).toThrow();
+    expect(() => AppStore.create({ githubToken: "" })).toThrow();
   });
 });
 
@@ -53,12 +54,10 @@ describe("Github Repo", () => {
 describe("Github Issues", () => {
   it("should only allow an array assignment", () => {
     // expect(store.create({ githubToken: "foo" }).githubToken).toBe("foo");
-    const store = AppStore.create({
-      issues
-    });
-
-    expect(store.issues[0].id).toBe(123);
-    expect(store.issues[1].id).toBe(456);
+    expect(() => AppStore.create({ issues: {} })).toThrow();
+    expect(() => AppStore.create({ issues: "" })).toThrow();
+    expect(() => AppStore.create({ issues: 0 })).toThrow();
+    expect(() => AppStore.create({ issues: true })).toThrow();
   });
 
   it("should match the model of data expected", () => {
@@ -115,12 +114,11 @@ describe("Github Issues", () => {
 
 Things to test:
 
-* Fetching of data (mock data): 
+* Setting of data (mock data): 
 Ensure test passes by setting expectations on the mock data that is set
 
 * Sorting of issues
 Ensure test passes by checking position of an issue before the sort, update the sort, and ensure issue has changed position.
-
 
 * Ensure when an issue is at bottom or top, that if we attempt to move it to the top or bottom (respectively), the list doesn't change at all (we could check either that the issue is at the same position, or if the list before deep equals to the new list)
 

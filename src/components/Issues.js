@@ -17,10 +17,15 @@ const Issues = inject("store")(
             <dl key={issue.id}>
               <dt className="mbs">
                 <h3 className="inline-block prm">{issue.title}</h3>
-                <span className="mrs" onClick={() => props.store.moveUp(i)}>
+                <span
+                  className="mrs arrow"
+                  onClick={() => props.store.moveUp(i)}
+                >
                   &uarr;
                 </span>
-                <span onClick={() => props.store.moveDown(i)}>&darr;</span>
+                <span className="arrow" onClick={() => props.store.moveDown(i)}>
+                  &darr;
+                </span>
               </dt>
             </dl>
           ))}
@@ -44,8 +49,5 @@ const Issues = inject("store")(
       ))
   )
 );
-
-//  : (
-//      )
 
 export default Issues;

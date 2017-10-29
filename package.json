@@ -17,8 +17,5 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  },
-  "devDependencies": {
-    "jsonwebtoken": "^8.1.0"
   }
 }

@@ -19,7 +19,7 @@ const Repos = inject("store")(
       <div>
         <Button
           type="primary"
-          onClick={() => props.store.removeGithubToken()}
+          onClick={() => props.store.resetApplication()}
           className="mbm inline-block"
           ghost
         >
