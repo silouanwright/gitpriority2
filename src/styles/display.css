@@ -1,0 +1,17 @@
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.block {
+  display: block;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.row {
+  display: flex;
+  justify-content: space-around;
+}

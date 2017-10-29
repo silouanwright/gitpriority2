@@ -1,0 +1,10 @@
+@import "~antd/dist/antd.css";
+
+li {
+  display: block;
+}
+
+a {
+  display: inline-block;
+  margin: 5px 0;
+}
