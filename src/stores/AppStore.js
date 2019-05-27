@@ -4,7 +4,8 @@ import { fetchGithubIssues, fetchGithubRepos } from "../utils/gitFetch";
 const Issue = types.model("Issue", {
   id: types.identifier(types.number),
   title: types.string,
-  body: types.string
+  body: types.maybe(types.string) 
+  
 });
 
 const Repo = types.model("Repo", {
@@ -43,6 +44,7 @@ export const AppStore = types
         console.error("Failed to fetch projects", error);
         self.state = "error";
       }
+      self.state = "done"
       return self.state;
     });
 
@@ -53,22 +55,21 @@ export const AppStore = types
       fetchProjects(self.githubToken);
     }
 
-    const fetchIssues = process(function*(e, name, id) {
-      // Figure out how to preventDefault cleanly
-      // inside a stateless functional component that
-      // gets the injected store later
-      e.preventDefault();
-      if (!self.selectedRepo || self.selectedRepo.id !== id) {
-        self.selectedRepo = id;
+    const fetchIssues = process(function*(name, id) {
+      self.state = 'pending'
+      const chosenRepo = self.repos.find(repo => repo.id === id)
+      if (!self.selectedRepo || self.selectedRepo !== id) {
         let issues = yield fetchGithubIssues(
           self.githubToken,
-          self.selectedRepo.owner.login,
-          self.selectedRepo.name
+          chosenRepo.owner.login,
+          chosenRepo.name
         );
+        self.selectedRepo = chosenRepo.id
         self.issues = issues.data;
       } else {
         self.selectedRepo = null;
       }
+      self.state = 'done'
     });
 
     function saveGithubToken(token) {

@@ -32,7 +32,10 @@ const Repos = inject("store")(
             <a
               href={`/issues/${repo.name}/`}
               className="mrm"
-              onClick={e => props.store.fetchIssues(e, repo.name, repo.id)}
+              onClick={e => {
+                e.preventDefault()
+                props.store.fetchIssues(repo.name, repo.id)
+              }}
             >
               {repo.name}
             </a>

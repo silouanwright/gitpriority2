@@ -1,3 +1,12 @@
+// The github-api should be dispensed of, in favor of just hitting github's v3 api:
+
+// base url: https://api.github.com
+// repos url, for example: https://api.github.com/user/repos
+// headers: {
+//   Accept: application/vnd.github.v3+json,
+//   Authorization: token <OAUTH-TOKEN>",
+// }
+
 import github from "github-api";
 
 // Goals:
